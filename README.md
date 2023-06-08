@@ -50,6 +50,6 @@ Se completaron las consignas planteadas.
 <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 
 💙 <strong>Made by Pablo Boer</strong></br>
-<a href="https://www.linkedin.com/in/pablo-boer-snm/" target="_blank">
+<a href="https://www.linkedin.com/in/pablo-boer-1616735a/" target="_blank">
 <img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a>
 
