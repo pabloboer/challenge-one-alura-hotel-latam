@@ -4,6 +4,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import factory.ConnectionFactory;
+import DAO.UsuariosDAO;
+
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,6 +21,9 @@ import javax.swing.SwingConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Connection;
+
+
 
 public class Login extends JFrame {
 
@@ -84,7 +91,12 @@ public class Login extends JFrame {
 		btnexit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+				if(JOptionPane.showConfirmDialog(null, "Desea salir de la aplicacion?", "Salir", JOptionPane.YES_NO_OPTION)==0){
+//					Login login = new Login();
+//					login.setVisible(true);
+//					dispose();
+					System.exit(0);
+				}
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -160,7 +172,10 @@ public class Login extends JFrame {
 		        	txtUsuario.setForeground(Color.gray);
 		        }
 			}
+			
 		});
+		
+		
 		txtContrasena.setForeground(SystemColor.activeCaptionBorder);
 		txtContrasena.setFont(new Font("Roboto", Font.PLAIN, 16));
 		txtContrasena.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -234,28 +249,34 @@ public class Login extends JFrame {
 		header.setLayout(null);
 	}
 	
+
 	private void Login() {
-		 String Usuario= "admin";
-	     String Contraseña="admin";
 
-	        String contrase=new String (txtContrasena.getPassword());
-
-	        if(txtUsuario.getText().equals(Usuario) && contrase.equals(Contraseña)){
-	            MenuUsuario menu = new MenuUsuario();
-	            menu.setVisible(true);
-	            dispose();	 
-	        }else {
-	            JOptionPane.showMessageDialog(this, "Usuario o Contraseña no válidos");
-	        }
-	} 
-	 private void headerMousePressed(java.awt.event.MouseEvent evt) {
+		Connection cn = new ConnectionFactory().getConexion();
+		UsuariosDAO usrDAO = new UsuariosDAO(cn);
+		
+		//buscar usr y contraseña en la DB
+		
+		String nombre = txtUsuario.getText().toString();
+		String pass = new String (txtContrasena.getPassword());
+		
+		boolean usuarioRegistrado = usrDAO.existeUsuario(nombre,pass);
+		
+        if(usuarioRegistrado){
+            MenuUsuario menu = new MenuUsuario();
+            menu.setVisible(true);
+            dispose();	 
+        }else {
+            JOptionPane.showMessageDialog(this, "Usuario o Contraseña no válidos");
+        }
+} 
+	private void headerMousePressed(java.awt.event.MouseEvent evt) {
 	        xMouse = evt.getX();
 	        yMouse = evt.getY();
-	    }//GEN-LAST:event_headerMousePressed
-
-	    private void headerMouseDragged(java.awt.event.MouseEvent evt) {
+	}//GEN-LAST:event_headerMousePressed
+	private void headerMouseDragged(java.awt.event.MouseEvent evt) {
 	        int x = evt.getXOnScreen();
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
-}
+	 }
 }
